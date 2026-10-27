@@ -213,11 +213,6 @@ export class Game {
     return last ? { from: last.record.from, to: last.record.to } : null;
   }
 
-  /** @returns {boolean} side to move is in check */
-  inCheck() {
-    return this.pos.inCheck();
-  }
-
   /** @returns {GameStatus} */
   status() {
     const check = this.pos.inCheck();
