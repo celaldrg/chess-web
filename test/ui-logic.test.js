@@ -65,7 +65,7 @@ test('applyTranslations fills text, aria-label and title', () => {
   applyTranslations(root, (key) => translate('tr', key));
   assert.equal(text.textContent, 'Geri al');
   assert.equal(attrs['aria-label'], 'Satranç tahtası');
-  assert.equal(titled.title, 'İngilizceye geç');
+  assert.equal(titled.title, 'EN – İngilizceye geç');
 });
 
 test('storage round-trips JSON and never throws', () => {
