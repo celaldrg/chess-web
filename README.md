@@ -1,6 +1,6 @@
 # Chess - full-rules chess in the browser, against a friend or a three-level computer
 
-[![tests](https://github.com/celaldrg/chess-web/actions/workflows/test.yml/badge.svg)](https://github.com/celaldrg/chess-web/actions/workflows/test.yml)
+[![tests: node --test](https://img.shields.io/badge/tests-node_----test-blue)](#tests)
 [![License: MIT](https://img.shields.io/badge/License-MIT-f59e0b.svg)](LICENSE)
 
 **▶ Play now: https://celaldrg.github.io/chess-web/**
