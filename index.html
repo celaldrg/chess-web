@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Chess</title>
+  <meta name="description" content="Play chess in your browser: full rules, move list in SAN, PGN export and a computer opponent with three levels. Works on phones, no install.">
+  <meta name="theme-color" content="#0f172a">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Chess">
+  <meta property="og:description" content="Play chess in your browser against a friend or a three-level computer opponent. Full rules, SAN move list and PGN export.">
+  <meta property="og:url" content="https://celaldrg.github.io/chess-web/">
+  <meta property="og:image" content="https://celaldrg.github.io/chess-web/docs/screenshot.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f59e0b'/%3E%3Ccircle cx='32' cy='19' r='8' fill='%230f172a'/%3E%3Cpath d='M25 29h14l-3 15h-8z' fill='%230f172a'/%3E%3Crect x='17' y='45' width='30' height='8' rx='3' fill='%230f172a'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="src/main.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="14" fill="#f59e0b"/>
+        <circle cx="32" cy="19" r="8" fill="#0f172a"/>
+        <path d="M25 29h14l-3 15h-8z" fill="#0f172a"/>
+        <rect x="17" y="45" width="30" height="8" rx="3" fill="#0f172a"/>
+      </svg>
+      <h1 data-i18n="title">Chess</h1>
+    </div>
+    <div class="topbar-actions">
+      <button id="new-game" class="btn btn-accent" type="button" data-i18n="newGame">New game</button>
+      <button id="lang" class="btn btn-ghost lang" type="button" data-i18n="langButton" data-i18n-aria="langSwitch" data-i18n-title="langSwitch" aria-label="Switch to Turkish">TR</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="board-wrap">
+      <div id="board" class="board" role="grid" tabindex="0" data-i18n-aria="boardLabel" aria-label="Chessboard" aria-describedby="hint"></div>
+    </section>
+
+    <aside class="panel">
+      <div id="status" class="card status-card">
+        <p class="status-line" aria-live="polite"><span class="turn-swatch" aria-hidden="true"></span><strong id="status-text"></strong></p>
+        <ul class="players">
+          <li id="player-w" class="player">
+            <span class="piece w" aria-hidden="true">&#x265A;&#xFE0E;</span>
+            <span class="player-name"></span>
+            <span class="thinking" hidden aria-hidden="true"><i></i><i></i><i></i></span>
+          </li>
+          <li id="player-b" class="player">
+            <span class="piece b" aria-hidden="true">&#x265A;&#xFE0E;</span>
+            <span class="player-name"></span>
+            <span class="thinking" hidden aria-hidden="true"><i></i><i></i><i></i></span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card moves-card">
+        <h2 data-i18n="moves">Moves</h2>
+        <p id="moves-empty" class="muted" data-i18n="noMoves">No moves yet. White starts.</p>
+        <ol id="move-list" class="move-list"></ol>
+      </div>
+
+      <div class="actions">
+        <button id="undo" class="btn" type="button" data-i18n="undo">Undo</button>
+        <button id="flip" class="btn" type="button" data-i18n="flip">Flip board</button>
+        <button id="copy-pgn" class="btn" type="button" data-i18n="copyPgn">Copy PGN</button>
+        <button id="download-pgn" class="btn" type="button" data-i18n="downloadPgn">Download PGN</button>
+      </div>
+
+      <p id="hint" class="hint muted" data-i18n="hint">Tap or drag a piece to move it.</p>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <span>MIT</span> · <a href="https://github.com/celaldrg/chess-web" data-i18n="footerSource">Source on GitHub</a>
+  </footer>
+
+  <dialog id="setup-dialog" class="dialog" aria-labelledby="setup-title">
+    <form id="setup-form" method="dialog">
+      <h2 id="setup-title" data-i18n="setupTitle">New game</h2>
+      <fieldset class="field">
+        <legend data-i18n="mode">Mode</legend>
+        <div class="segmented">
+          <label><input type="radio" name="mode" value="ai"><span data-i18n="modeAi">vs Computer</span></label>
+          <label><input type="radio" name="mode" value="pvp"><span data-i18n="modePvp">2 players</span></label>
+        </div>
+      </fieldset>
+      <fieldset id="color-field" class="field">
+        <legend data-i18n="playAs">Play as</legend>
+        <div class="segmented">
+          <label><input type="radio" name="color" value="w"><span data-i18n="white">White</span></label>
+          <label><input type="radio" name="color" value="b"><span data-i18n="black">Black</span></label>
+        </div>
+      </fieldset>
+      <fieldset id="level-field" class="field">
+        <legend data-i18n="level">Level</legend>
+        <div class="segmented">
+          <label><input type="radio" name="level" value="easy"><span data-i18n="easy">Easy</span></label>
+          <label><input type="radio" name="level" value="medium"><span data-i18n="medium">Medium</span></label>
+          <label><input type="radio" name="level" value="hard"><span data-i18n="hard">Hard</span></label>
+        </div>
+      </fieldset>
+      <div class="dialog-actions">
+        <button class="btn" type="submit" value="cancel" formnovalidate data-i18n="cancel">Cancel</button>
+        <button class="btn btn-accent" type="submit" value="start" data-i18n="start">Start</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="promotion-dialog" class="dialog" aria-labelledby="promotion-title">
+    <form id="promotion-form" method="dialog">
+      <h2 id="promotion-title" data-i18n="promoteTitle">Promote pawn to</h2>
+      <div class="promo-grid">
+        <button class="promo" type="submit" value="q" data-i18n-aria="queen" aria-label="Queen"><span data-piece="q"></span></button>
+        <button class="promo" type="submit" value="r" data-i18n-aria="rook" aria-label="Rook"><span data-piece="r"></span></button>
+        <button class="promo" type="submit" value="b" data-i18n-aria="bishop" aria-label="Bishop"><span data-piece="b"></span></button>
+        <button class="promo" type="submit" value="n" data-i18n-aria="knight" aria-label="Knight"><span data-piece="n"></span></button>
+      </div>
+      <div class="dialog-actions">
+        <button class="btn" type="submit" value="" data-i18n="cancel">Cancel</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

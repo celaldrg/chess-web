@@ -1,0 +1,11 @@
+{
+  "name": "chess-web",
+  "version": "1.0.0",
+  "description": "Chess in the browser: full rules engine, move list, PGN export and a three-level computer opponent. Vanilla JS, no build step.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "license": "MIT"
+}
